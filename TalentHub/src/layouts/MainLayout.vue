@@ -1,18 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <!-- HEADER -->
-    <q-header elevated class="bg-primary text-white">
+    <q-header elevated style="background-color: #222a57" class="text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-        
-        <q-toolbar-title class="text-h5">
+        <q-toolbar-title class="text-h5 text-weight-bold">
           <q-icon name="work" class="q-mr-sm" /> Freelancer Aplikacija
         </q-toolbar-title>
 
@@ -22,12 +12,9 @@
       </q-toolbar>
     </q-header>
 
-    <!-- NAVIGACIJSKI DRAWER -->
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2">
-      <q-list>
-        <q-item-label header class="text-grey-8">
-          Navigacija
-        </q-item-label>
+    <q-drawer v-model="leftDrawerOpen" bordered class="bg-grey-1" :width="280" show-if-above>
+      <q-list class="q-pa-sm">
+        <q-item-label header class="text-overline text-grey-7 q-pb-md"> Navigacija </q-item-label>
 
         <q-item
           v-for="link in linksList"
@@ -35,21 +22,22 @@
           clickable
           tag="router-link"
           :to="link.link"
-          class="hover-bg-secondary rounded-borders q-mb-sm"
+          class="nav-item rounded-borders q-mb-sm"
+          active-class="active-link"
         >
           <q-item-section avatar>
-            <q-icon :name="link.icon" color="primary" />
+            <q-icon :name="link.icon" class="nav-icon" />
           </q-item-section>
+
           <q-item-section>
             <q-item-label class="text-weight-bold">{{ link.title }}</q-item-label>
-            <q-item-label caption>{{ link.caption }}</q-item-label>
+            <q-item-label caption class="text-grey-6">{{ link.caption }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
 
-    <!-- STRANICE -->
-    <q-page-container>
+    <q-page-container class="bg-grey-2">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -58,65 +46,44 @@
 <script setup>
 import { ref } from 'vue'
 
+const leftDrawerOpen = ref(false)
+
 const linksList = [
-  {
-    title: 'Freelanceri',
-    caption: 'Pregled freelancera',
-    icon: 'people',
-    link: '/freelanceri'
-  },
+  { title: 'Freelanceri', caption: 'Pregled freelancera', icon: 'people', link: '/freelanceri' },
   {
     title: 'Kategorije usluga',
     caption: 'Različite vrste usluga',
     icon: 'category',
-    link: '/kategorije-usluga'
+    link: '/kategorije-usluga',
   },
-  {
-    title: 'Narudžbe',
-    caption: 'Vaše narudžbe',
-    icon: 'shopping_cart',
-    link: '/narudzbe'
-  },
-  {
-    title: 'O nama',
-    caption: 'Više informacija',
-    icon: 'info',
-    link: '/onama'
-  },
-  {
-    title: 'Login',
-    caption: 'Prijavite se',
-    icon: 'login',
-    link: '/'
-  },
-  {
-    title: 'Registracija',
-    caption: 'Kreirajte račun',
-    icon: 'person_add',
-    link: '/registracija'
-  }
+  { title: 'Narudžbe', caption: 'Vaše narudžbe', icon: 'shopping_cart', link: '/narudzbe' },
+  { title: 'O nama', caption: 'Više informacija', icon: 'info', link: '/onama' },
+  { title: 'Login', caption: 'Prijavite se', icon: 'login', link: '/login' },
+  { title: 'Registracija', caption: 'Kreirajte račun', icon: 'person_add', link: '/registracija' },
 ]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
 </script>
 
 <style scoped>
-/* Hover efekt na navigacijske stavke */
-.hover-bg-secondary:hover {
-  background-color: rgba(0, 0, 0, 0.08);
+.nav-icon {
+  color: #222a57;
 }
-
-/* Poboljšan izgled navigacije */
-.q-drawer {
-  width: 260px;
+.nav-item {
+  transition: all 0.3s ease;
+  color: #2c3e50;
 }
-
-/* Zaobljeni rubovi i bolji razmaci */
+.nav-item:hover {
+  background-color: #e8eaf6;
+  color: #222a57;
+}
+.active-link {
+  background-color: #222a57 !important;
+  color: white !important;
+}
+.active-link .nav-icon,
+.active-link .text-grey-6 {
+  color: white !important;
+}
 .rounded-borders {
-  border-radius: 8px;
+  border-radius: 12px;
 }
 </style>
